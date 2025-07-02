@@ -2,6 +2,8 @@ import Fastify from 'fastify'
 import cors from '@fastify/cors'
 import multipart from '@fastify/multipart'
 import dotenv from 'dotenv'
+import authRoutes from './routes/authRoutes.js'
+import jwt from '@fastify/jwt'
 
 dotenv.config()
 
@@ -9,9 +11,22 @@ const app = Fastify({ logger: true })
 
 app.register(cors)
 app.register(multipart)
+app.register(jwt, {
+    secret: process.env.JWT_SECRET || 'supersecretkey' //replace with your own secret
+})
 
 app.get('/', async (request, reply) => {
   return { message: 'Archivio backend fonctionne 🎉' }
+})
+
+//decorate request with auth verification
+app.decorate('authenticate', async function (request, reply){
+    try {
+        await request.jwtVerify()
+    } catch (err) {
+        reply.code(401).send({
+            error: 'Unauthorized access'
+        })}
 })
 
 const start = async () => {
@@ -23,5 +38,6 @@ const start = async () => {
     process.exit(1)
   }
 }
-
+app.register(authRoutes)
 start()
+
