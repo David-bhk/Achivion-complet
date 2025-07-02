@@ -3,8 +3,8 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-export async function registerUser(req, res) {
-    const {name, email, password} = req.body
+export async function registerUser(request, reply) {
+    const {name, email, password} = request.body
 
     const existingUser = await prisma.user.findUnique({
         where: { email }
@@ -18,7 +18,7 @@ export async function registerUser(req, res) {
     const hashedPassword = await bcrypt.hash(password, 10)
 
     // Save the new user to the database
-    const newUser = await prisma.user.create({
+    const user = await prisma.user.create({
         data: {
             name,
             email,
@@ -26,8 +26,8 @@ export async function registerUser(req, res) {
         }
     })
 
-    reply.code(201).send({
-        message: 'User created successfully',
+    return reply.code(201).send({
+        message: 'User created',
         user: {
             id: user.id,
             name: user.name,
