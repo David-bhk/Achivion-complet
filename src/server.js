@@ -6,6 +6,7 @@ import authRoutes from './routes/authRoutes.js'
 import jwt from '@fastify/jwt'
 import protectedRoutes from './routes/protectedRoutes.js'
 import uploadRoutes from './routes/uploadRoutes.js'
+import fileRoutes from './routes/fileRoutes.js'
 
 dotenv.config()
 
@@ -43,5 +44,6 @@ app.register(uploadRoutes) // Register the upload routes
 app.register(multipart)
 app.register(protectedRoutes)
 app.register(authRoutes)
+app.register(fileRoutes) // Register the file routes
 start()
 

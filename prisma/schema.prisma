@@ -20,6 +20,7 @@ model User {
   name      String
   role      Role     @default(USER)
   createdAt DateTime @default(now())
+  fields    File[]
 }
 
 enum Role {
@@ -27,3 +28,16 @@ enum Role {
   SUPERUSER
   USER
 }
+
+model File {
+  id        Int      @id @default(autoincrement())
+  filename  String
+  mimetype  String
+  size      Int
+  path      String
+  uploadedAt DateTime @default(now())
+  
+  user     User     @relation(fields: [userId], references: [id])
+  userId   Int
+}
+
