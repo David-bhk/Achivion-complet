@@ -47,5 +47,6 @@ app.register(protectedRoutes)
 app.register(authRoutes)
 app.register(fileRoutes) // Register the file routes
 app.register(userRoutes) // Register the user routes
+
 start()
 
