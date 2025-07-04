@@ -40,8 +40,8 @@ const start = async () => {
     process.exit(1)
   }
 }
-app.register(uploadRoutes) // Register the upload routes
 app.register(multipart)
+app.register(uploadRoutes) // Register the upload routes
 app.register(protectedRoutes)
 app.register(authRoutes)
 app.register(fileRoutes) // Register the file routes
